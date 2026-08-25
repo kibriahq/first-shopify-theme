@@ -13,10 +13,19 @@
   "sections": {
     "header": {
       "type": "header",
-      "settings": {}
+      "settings": {
+        "menu": "main-menu",
+      }
+    },
+    "announcement-bar": {
+      "type": "announcement-bar",
+      "settings": {
+        "announcement_text": "Welcome to our store!"
+      }
     }
   },
   "order": [
+    "announcement-bar",
     "header"
   ],
 }
