@@ -15,7 +15,7 @@
       class="hidden md:flex items-center gap-8 flex-[2] justify-center text-label-sm font-label-sm"
       data-active-classes="text-primary font-bold"
     >
-      {% for link in linklists['main-menu'].links %}
+      {% for link in section.settings.menu.links %}
         <a
           class="text-on-surface-variant hover:text-on-surface transition-colors uppercase tracking-widest {%  if link.active %} font-bold {% endif %}"
           data-path="collections"
