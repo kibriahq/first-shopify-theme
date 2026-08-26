@@ -1,41 +1,96 @@
-<footer>
-  <div class="footer__copyright">
-    &copy;
-    {{ 'now' | date: '%Y' }}
-    {{ shop.name | link_to: routes.root_url }}, {{ powered_by_link }}
-  </div>
+<footer class="w-full bg-surface-container-low pt-section-gap pb-gutter mt-section-gap">
+  <div class="container mx-auto px-margin-mobile lg:px-gutter">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter mb-16">
+      <div class="flex flex-col gap-4">
+        <h4 class="font-headline-md text-label-sm uppercase tracking-widest text-primary">Shop</h4>
+        <nav class="flex flex-col gap-3">
+          <a
+            class="text-body-md text-on-surface-variant hover:text-primary transition-colors"
+            href="#"
+            >All Products</a
+          ><a
+            class="text-body-md text-on-surface-variant hover:text-primary transition-colors"
+            href="#"
+            >Best Sellers</a
+          ><a
+            class="text-body-md text-on-surface-variant hover:text-primary transition-colors"
+            href="#"
+            >New Arrivals</a
+          >
+        </nav>
+      </div>
+      <div class="flex flex-col gap-4">
+        <h4 class="font-headline-md text-label-sm uppercase tracking-widest text-primary">Support</h4>
+        <nav class="flex flex-col gap-3">
+          <a
+            class="text-body-md text-on-surface-variant hover:text-primary transition-colors"
+            href="#"
+            >Shipping</a
+          ><a
+            class="text-body-md text-on-surface-variant hover:text-primary transition-colors"
+            href="#"
+            >Returns</a
+          ><a
+            class="text-body-md text-on-surface-variant hover:text-primary transition-colors"
+            href="#"
+            >FAQ</a
+          ><a
+            class="text-body-md text-on-surface-variant hover:text-primary transition-colors"
+            href="#"
+            >Contact</a
+          >
+        </nav>
+      </div>
+      <div class="lg:col-span-2 flex flex-col gap-6">
+        <h4 class="font-headline-md text-label-sm uppercase tracking-widest text-primary">Newsletter</h4>
+        <p class="text-body-md text-on-surface-variant">
+          Be the first to receive updates on new collections and exclusive offers.
+        </p>
+        <form class="flex flex-col sm:flex-row gap-2">
+          <input
+            class="flex-1 bg-surface-container-lowest border border-outline-variant px-4 py-3 text-body-md focus:border-primary outline-none transition-all"
+            placeholder="Email address"
+            type="email"
 
-  <div class="footer__links">
-    {% for link in section.settings.menu.links %}
-      {{ link.title | link_to: link.url }}
-    {% endfor %}
-  </div>
-
-  <div class="footer__payment">
-    {% if section.settings.show_payment_icons %}
-      {% for type in shop.enabled_payment_types %}
-        {{ type | payment_type_svg_tag }}
-      {% endfor %}
-    {% endif %}
+          ><button
+            class="bg-primary text-on-primary px-8 py-3 font-label-sm uppercase tracking-widest hover:bg-on-background transition-all"
+            type="submit"
+          >
+            Subscribe
+          </button>
+        </form>
+      </div>
+    </div>
+    <div
+      class="border-t border-outline-variant pt-8 flex flex-col md:flex-row items-center justify-between gap-6"
+    >
+      <div class="flex gap-6">
+        <a
+          class="text-on-surface-variant hover:text-primary transition-colors"
+          href="#"
+          ><span class="material-symbols-outlined">public</span></a
+        ><a
+          class="text-on-surface-variant hover:text-primary transition-colors"
+          href="#"
+          ><span
+            class="material-symbols-outlined"
+            >share</span
+          ></a
+        ><a
+          class="text-on-surface-variant hover:text-primary transition-colors"
+          href="#"
+          ><span
+            class="material-symbols-outlined"
+            >mail</span
+          ></a
+        >
+      </div>
+      <p class="text-label-sm text-on-surface-variant">
+        © 2024 LUMINA. All rights reserved. Crafted for curated excellence.
+      </p>
+    </div>
   </div>
 </footer>
-
-{% stylesheet %}
-  footer {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 2rem;
-  }
-  footer a {
-    text-decoration: none;
-    color: var(--color-foreground);
-  }
-  footer .footer__links,
-  footer .footer__payment {
-    display: flex;
-    gap: 1rem;
-  }
-{% endstylesheet %}
 
 {% schema %}
 {
