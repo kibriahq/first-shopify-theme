@@ -12,7 +12,7 @@
 {% enddoc %}
 
 <div
-  class="group {{ block.settings.layout_direction }}"
+  class="theme-group {{ block.settings.layout_direction }}"
   style="
     --padding: {{ block.settings.padding }}px;
     --alignment: {{ block.settings.alignment }};
@@ -23,7 +23,7 @@
 </div>
 
 {% stylesheet %}
-  .group {
+  .theme-group {
     display: flex;
     flex-wrap: nowrap;
     overflow: hidden;

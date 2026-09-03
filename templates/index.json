@@ -9,12 +9,21 @@
  */
 {
   "sections": {
-    "main": {
-      "type": "hello-world",
-      "settings": {}
+    "hero": {
+      "type": "hero",
+      "settings": {
+        "heading": "Curated for <br> the Modern <br> Home",
+        "subheading": "Discover our exclusive collection of timeless pieces, designed to elevate your living spaces with quiet luxury and enduring craftsmanship.",
+        "button_text": "Shop the Collection",
+        "button_link": "#"
+      }
+    },
+    "shop-categories": {
+      "type": "shop-categories"
     }
   },
   "order": [
-    "main"
+    "hero",
+    "shop-categories"
   ]
 }

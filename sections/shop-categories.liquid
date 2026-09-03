@@ -1,0 +1,82 @@
+<section class="w-full max-w-container-max mx-auto px-margin-mobile lg:px-gutter py-section-gap">
+  <div class="flex items-end justify-between mb-12">
+    <h2
+      class="font-display-lg-mobile text-display-lg-mobile md:font-display-lg md:text-display-lg text-primary uppercase tracking-tighter"
+    >
+      Shop by Category
+    </h2>
+    <a
+      class="hidden md:inline-flex items-center gap-2 font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors uppercase tracking-widest group"
+      href="{{ routes.collections_url }}"
+    >
+      View All
+      <span class="material-symbols-outlined transform group-hover:translate-x-1 transition-transform">
+        arrow_forward
+      </span>
+    </a>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+    {% for block in section.blocks %}
+      {% assign collection = block.settings.collection %}
+      <a
+        class="group relative aspect-[4/5] overflow-hidden bg-surface-container-lowest shadow-md hover:shadow-2xl transition-all duration-500 rounded-lg"
+        href="{{ collection.url }}"
+      >
+        <img
+          class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
+          data-alt="Close-up of a meticulously crafted, mid-century modern inspired wooden lounge chair with natural cane webbing and plush cream boucle cushions, set against a soft, textured plaster wall."
+          src="{{ collection.featured_image | image_url }}"
+          height="600"
+          width="480"
+        >
+        <div
+          class="absolute bottom-0 left-0 right-0 p-8 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/50 to-transparent"
+        >
+          <h3 class="font-headline-md text-headline-md text-primary mb-2">{{ collection.title }}</h3>
+          <p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest flex items-center gap-1">
+            Explore
+            <span class="material-symbols-outlined transform group-hover:translate-x-1 transition-transform">
+              arrow_forward
+            </span>
+          </p>
+        </div>
+      </a>
+    {% endfor %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Shop By Category",
+  "max_blocks": 3,
+  "blocks": [
+    {
+      "type": "collection",
+      "name": "Collection",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Select collection"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Shop By Category",
+      "blocks": [
+        {
+          "type": "collection"
+        },
+        {
+          "type": "collection"
+        },
+        {
+          "type": "collection"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
