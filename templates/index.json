@@ -23,11 +23,20 @@
     },
     "best-seller-products": {
       "type": "best-seller"
+    },
+    "banner": {
+      "type": "banner",
+      "settings": {
+        "heading-text": "The Noir Collection",
+        "description-text": "Embrace the drama of dark woods, blackened metals, and deep, saturated textiles. A bold new direction for the modern interior.",
+        "button-url": "https://test.com"
+      }
     }
   },
   "order": [
     "hero",
     "shop-categories",
-    "best-seller-products"
+    "best-seller-products",
+    "banner"
   ]
 }

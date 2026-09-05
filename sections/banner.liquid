@@ -1,0 +1,48 @@
+<section
+  class="w-full h-[60vh] min-h-[500px] relative flex items-center justify-center overflow-hidden my-section-gap"
+>
+  <div class="absolute inset-0 bg-inverse-surface z-0">
+    <img
+      class="w-full h-full object-cover opacity-60 mix-blend-luminosity"
+      data-alt="A moody, atmospheric shot of a dining room at dusk. The focus is on a monumental, dark stained oak dining table surrounded by minimal, architectural chairs. Only softly lit by an unseen window, highlighting the texture of the wood grain."
+      src="https://lh3.googleusercontent.com/aida-public/AB6AXuCE32wtpyZcBQO2VRyPJ-Zy9Gop7Y29odT-ZtS7PsY0eRtzcrwzrbBNwNJc7KTEB0cD-YBFyS0Muv9AL2__sV0RVw4kLn6uYZZz_VK7v99AMouBFHvCj68S6rWrUwEMNupt64QAimpBcmaxV-nb5-2cVrU2nwbcQ2CEqUuyJusV8WS1MxZFnx_41FBdMuKwQfpEbXvyF1TanW3HqoL62XGdRclGulIMfRa3kn79u-O0XC5OAultDd0DuA"
+    >
+  </div>
+  <div class="relative z-10 text-center max-w-2xl px-6">
+    <h2 class="font-display-lg text-display-lg text-inverse-on-surface mb-6 uppercase tracking-tighter">
+      {{ section.settings['heading-text'] }}
+    </h2>
+    <p class="font-body-lg text-body-lg text-inverse-primary mb-8 font-light">
+      {{ section.settings['description-text'] }}
+    </p>
+    <a
+      class="inline-flex items-center justify-center bg-primary text-on-primary px-10 py-5 font-label-sm text-label-sm uppercase tracking-[0.2em] hover:bg-on-background transition-all shadow-md hover:shadow-2xl border border-primary hover:border-on-background transform hover:-translate-y-1"
+      href="{{ section.settings.button-url }}"
+    >
+      Explore Noir <span class="material-symbols-outlined">arrow_right_alt</span>
+    </a>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Banner",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading-text",
+      "label": "Heading Text"
+    },
+    {
+      "type": "text",
+      "id": "description-text",
+      "label": "Description Text"
+    },
+    {
+      "type": "url",
+      "id": "button-url",
+      "label": "Button URL"
+    }
+  ]
+}
+{% endschema %}
