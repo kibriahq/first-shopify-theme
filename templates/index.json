@@ -31,12 +31,16 @@
         "description-text": "Embrace the drama of dark woods, blackened metals, and deep, saturated textiles. A bold new direction for the modern interior.",
         "button-url": "https://test.com"
       }
+    },
+    "new-arrivals": {
+      "type": "new-arrivals"
     }
   },
   "order": [
     "hero",
     "shop-categories",
     "best-seller-products",
-    "banner"
+    "banner",
+    "new-arrivals"
   ]
 }
