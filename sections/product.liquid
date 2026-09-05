@@ -1,44 +1,235 @@
-{% comment %}
-  This section is used in the product template to render product page with
-  media, content, and add-to-cart form.
-
-  https://shopify.dev/docs/storefronts/themes/architecture/templates/product
-{% endcomment %}
-
-<div class="product-images">
-  {% for image in product.images %}
-    {% render 'image', class: 'product-image', image: image %}
-  {% endfor %}
-</div>
-
-<div class="product-info">
-  <h1>{{ product.title }}</h1>
-  <p>{{ product.price | money }}</p>
-  <p>{{ product.description }}</p>
-</div>
-
-<div class="product-form">
-  {% form 'product', product %}
-    {% assign current_variant = product.selected_or_first_available_variant %}
-
-    <select name="id">
-      {% for variant in product.variants %}
-        <option
-          value="{{ variant.id }}"
-          {% if variant == current_variant %}
-            selected="selected"
-          {% endif %}
+<div class="max-w-container-max mx-auto px-margin-mobile lg:px-gutter w-full pb-section-gap pt-20">
+  <nav class="flex items-center gap-2 py-8 text-label-sm font-label-sm text-on-surface-variant">
+    <a class="hover:text-primary transition-colors" href="{{ routes.root_url }}">Home</a>
+    <span class="material-symbols-outlined text-[16px]">chevron_right</span>
+    <a class="hover:text-primary transition-colors" href="{{ routes.collections_url }}">Collections</a>
+    <span class="material-symbols-outlined text-[16px]">chevron_right</span>
+    <a class="hover:text-primary transition-colors" href="{{ product.collections.last.url }}">
+      {{- product.collections.last.title -}}
+    </a>
+    <span class="material-symbols-outlined text-[16px]">chevron_right</span>
+    <span class="text-primary font-medium">{{ product.title }}</span>
+  </nav>
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24">
+    <div class="flex flex-col gap-4">
+      <div
+        class="relative w-full aspect-[4/5] bg-surface-container-low rounded-xl overflow-hidden shadow-sm group"
+      >
+        <span
+          class="absolute top-4 left-4 z-10 px-3 py-1 bg-error-container text-on-error-container text-[12px] font-label-sm tracking-widest uppercase rounded-full shadow-sm"
+          >Sale</span
         >
-          {{ variant.title }} - {{ variant.price | money }}
-        </option>
-      {% endfor %}
-    </select>
-
-    <input type="text" name="quantity" min="1" value="1">
-
-    <input type="submit" value="Add to cart">
-    {{ form | payment_button }}
-  {% endform %}
+        <div
+          class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
+          data-alt="Close up photography of a tall, matte black ceramic vase with subtle vertical fluting, resting on a polished concrete surface. Dramatic natural lighting from the left creates soft highlights and deep shadows, highlighting the vessel's texture. The background is a muted, warm off-white."
+          style="background-image: url('{{ product.featured_image | img_url: '2048x2048' }}')"
+        ></div>
+        <button
+          class="absolute bottom-4 right-4 z-10 w-10 h-10 bg-surface-container-lowest/80 backdrop-blur-sm rounded-full flex items-center justify-center text-primary shadow-sm hover:scale-110 transition-transform"
+        >
+          <span
+            class="material-symbols-outlined"
+            style="font-variation-settings: 'FILL' 0;"
+            >fullscreen</span
+          >
+        </button>
+      </div>
+      <div class="grid grid-cols-4 gap-4">
+        {% for image in product.images %}
+          <div
+            class="aspect-square bg-surface-container-low rounded-lg overflow-hidden shadow-sm cursor-pointer {% if image == product.featured_image %} border-2 border-primary {% else %} opacity-70 hover:opacity-100 transition-opacity {% endif %}"
+          >
+            <div
+              class="w-full h-full bg-cover bg-center"
+              data-alt="Thumbnail showing a tall, matte black ceramic vase with subtle vertical fluting, resting on a polished concrete surface."
+              style="background-image: url('{{ image | img_url: '2048x2048' }}')"
+            ></div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="flex flex-col pt-4 lg:pt-8">
+      <div class="flex items-center gap-2 mb-4">
+        <div class="flex text-primary">
+          <span
+            class="material-symbols-outlined text-[18px]"
+            style="font-variation-settings: 'FILL' 1;"
+            >star</span
+          >
+          <span
+            class="material-symbols-outlined text-[18px]"
+            style="font-variation-settings: 'FILL' 1;"
+            >star</span
+          >
+          <span
+            class="material-symbols-outlined text-[18px]"
+            style="font-variation-settings: 'FILL' 1;"
+            >star</span
+          >
+          <span
+            class="material-symbols-outlined text-[18px]"
+            style="font-variation-settings: 'FILL' 1;"
+            >star</span
+          >
+          <span
+            class="material-symbols-outlined text-[18px]"
+            style="font-variation-settings: 'FILL' 1;"
+            >star_half</span
+          >
+        </div>
+        <a
+          class="text-label-sm font-label-sm text-on-surface-variant hover:text-primary transition-colors underline underline-offset-4 decoration-outline-variant hover:decoration-primary"
+          href="#reviews"
+          >(124 Reviews)</a
+        >
+      </div>
+      <h1
+        class="font-display-lg text-display-lg-mobile md:text-display-lg text-primary mb-4 tracking-tighter"
+      >
+        {{ product.title }}
+      </h1>
+      <div class="flex items-baseline gap-4 mb-8">
+        <span class="font-headline-md text-headline-md text-primary">{{ product.price | money }}</span>
+        <span class="font-body-lg text-body-lg text-on-surface-variant line-through">
+          {{- product.compare_at_price | money -}}
+        </span>
+      </div>
+      <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed mb-10 max-w-prose">
+        {{ product.description | strip_html }}
+      </p>
+      <div class="flex flex-col gap-8 mb-10">
+        <div class="flex flex-col gap-3">
+          <div class="flex justify-between items-center">
+            <span
+              class="font-label-sm text-label-sm uppercase tracking-widest text-primary"
+              >Color: <span class="font-bold">Matte Black</span></span
+            >
+          </div>
+          <div class="flex gap-3">
+            <button
+              aria-label="Select Matte Black"
+              class="w-10 h-10 rounded-full bg-[#2A2A2A] shadow-sm ring-2 ring-primary ring-offset-2 ring-offset-surface transition-all"
+            ></button>
+            <button
+              aria-label="Select Alabaster"
+              class="w-10 h-10 rounded-full bg-[#E5DCC5] shadow-sm hover:scale-110 transition-transform"
+            ></button>
+            <button
+              aria-label="Select Sage"
+              class="w-10 h-10 rounded-full bg-[#7D8471] shadow-sm hover:scale-110 transition-transform"
+            ></button>
+          </div>
+        </div>
+        <div class="flex flex-col gap-3">
+          <div class="flex justify-between items-center">
+            <span
+              class="font-label-sm text-label-sm uppercase tracking-widest text-primary"
+              >Size</span
+            >
+            <button
+              class="text-label-sm font-label-sm text-on-surface-variant underline underline-offset-4 decoration-outline-variant hover:text-primary transition-colors"
+            >
+              Size Guide
+            </button>
+          </div>
+          <div class="grid grid-cols-3 gap-3">
+            <button
+              class="py-3 px-4 bg-surface-container-lowest border border-outline-variant rounded-md text-label-sm font-label-sm text-on-surface-variant hover:border-primary hover:text-primary transition-colors"
+            >
+              Small
+            </button>
+            <button
+              class="py-3 px-4 bg-surface-container-lowest border-2 border-primary rounded-md text-label-sm font-label-sm text-primary font-bold shadow-sm"
+            >
+              Medium
+            </button>
+            <button
+              class="py-3 px-4 bg-surface-container-lowest border border-outline-variant rounded-md text-label-sm font-label-sm text-on-surface-variant hover:border-primary hover:text-primary transition-colors opacity-50 cursor-not-allowed"
+            >
+              Large
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-col sm:flex-row gap-4 mb-8">
+        <div
+          class="flex items-center bg-surface-container-lowest border border-outline-variant rounded-md h-14 sm:w-32"
+        >
+          <button
+            class="w-10 h-full flex items-center justify-center text-on-surface-variant hover:text-primary transition-colors"
+          >
+            <span class="material-symbols-outlined text-[18px]">remove</span>
+          </button>
+          <input
+            class="w-full text-center bg-transparent font-label-sm text-label-sm text-primary outline-none appearance-none"
+            min="1"
+            style="-moz-appearance: textfield;"
+            type="number"
+            value="1"
+          >
+          <button
+            class="w-10 h-full flex items-center justify-center text-on-surface-variant hover:text-primary transition-colors"
+          >
+            <span class="material-symbols-outlined text-[18px]">add</span>
+          </button>
+        </div>
+        <button
+          class="flex-1 h-14 bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest rounded-md hover:bg-on-background transition-colors shadow-md hover:shadow-xl hover:-translate-y-0.5 duration-300"
+        >
+          Add to Cart
+        </button>
+        <button
+          class="h-14 px-6 bg-surface-container-lowest border border-outline-variant rounded-md text-on-surface-variant hover:text-primary hover:border-primary transition-colors flex items-center justify-center group"
+        >
+          <span
+            class="material-symbols-outlined group-hover:scale-110 transition-transform"
+            >favorite</span
+          >
+        </button>
+      </div>
+      <div
+        class="flex flex-col bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden mb-8"
+      >
+        <details class="group">
+          <summary
+            class="flex justify-between items-center font-label-sm text-label-sm uppercase tracking-widest text-primary p-6 cursor-pointer list-none"
+          >
+            <span>Shipping &amp; Returns</span>
+            <span
+              class="material-symbols-outlined text-on-surface-variant transition-transform group-open:rotate-180"
+              >expand_more</span
+            >
+          </summary>
+          <div class="px-6 pb-6 font-body-md text-body-md text-on-surface-variant">
+            <p class="mb-2">
+              Complimentary standard shipping on all orders over $200. Express delivery available at checkout.
+            </p>
+            <p>Returns accepted within 30 days of delivery. Items must be in original condition.</p>
+          </div>
+        </details>
+        <div class="h-[1px] w-full bg-outline-variant/30"></div>
+        <details class="group">
+          <summary
+            class="flex justify-between items-center font-label-sm text-label-sm uppercase tracking-widest text-primary p-6 cursor-pointer list-none"
+          >
+            <span>Details &amp; Care</span>
+            <span
+              class="material-symbols-outlined text-on-surface-variant transition-transform group-open:rotate-180"
+              >expand_more</span
+            >
+          </summary>
+          <div class="px-6 pb-6 font-body-md text-body-md text-on-surface-variant">
+            <ul class="list-disc pl-4 flex flex-col gap-2">
+              <li>Material: 100% Stoneware</li>
+              <li>Dimensions: 14" H x 6" W</li>
+              <li>Weight: 4.5 lbs</li>
+              <li>Care: Wipe clean with a soft, damp cloth. Not watertight.</li>
+            </ul>
+          </div>
+        </details>
+      </div>
+    </div>
+  </div>
 </div>
 
 {% schema %}

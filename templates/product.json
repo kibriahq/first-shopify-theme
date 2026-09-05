@@ -12,9 +12,13 @@
     "main": {
       "type": "product",
       "settings": {}
+    },
+    "product-recommend": {
+      "type": "product-recommend"
     }
   },
   "order": [
-    "main"
+    "main",
+    "product-recommend"
   ]
 }
