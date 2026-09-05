@@ -20,10 +20,14 @@
     },
     "shop-categories": {
       "type": "shop-categories"
+    },
+    "best-seller-products": {
+      "type": "best-seller"
     }
   },
   "order": [
     "hero",
-    "shop-categories"
+    "shop-categories",
+    "best-seller-products"
   ]
 }

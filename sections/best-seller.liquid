@@ -1,0 +1,84 @@
+<section class="w-full bg-surface-container-low py-section-gap relative overflow-hidden">
+  <div
+    class="absolute -right-64 -top-64 w-[800px] h-[800px] bg-secondary-fixed/20 rounded-full blur-[120px] pointer-events-none mix-blend-multiply"
+  ></div>
+  <div class="max-w-container-max mx-auto px-margin-mobile lg:px-gutter relative z-10">
+    <div class="flex items-baseline gap-6 mb-12 border-b border-outline-variant/30 pb-4">
+      <h2
+        class="font-display-lg-mobile text-display-lg-mobile md:font-display-lg md:text-display-lg text-primary uppercase tracking-tighter"
+      >
+        Best Sellers
+      </h2>
+      <span class="font-accent-italic text-accent-italic text-on-surface-variant lowercase hidden md:inline">
+        Our most coveted pieces
+      </span>
+    </div>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
+      {% for product in section.settings['best-seller-collection'].products limit: 4 %}
+        <!-- Product Card 1 -->
+        <div class="group cursor-pointer">
+          <div
+            class="relative aspect-square mb-6 bg-surface-container-lowest overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 rounded-md"
+          >
+            <img
+              class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
+              data-alt="A minimalist, armless dining chair featuring a solid blackened ash frame and a seat upholstered in rich, rust-colored velvet. Clean lines and severe geometry."
+              src="{{ product.featured_image | image_url }}"
+              height="300px"
+              width="400px"
+            >
+            <div
+              class="absolute top-4 left-4 bg-error-container text-on-error-container px-3 py-1 font-label-sm text-[10px] uppercase tracking-widest rounded-full"
+            >
+              Bestseller
+            </div>
+            {% form 'product', product %}
+              {% assign current_variant = product.selected_or_first_available_variant %}
+
+              <select name="id">
+                {% for variant in product.variants %}
+                  <option
+                    value="{{ variant.id }}"
+                    {% if variant == current_variant %}
+                      selected="selected"
+                    {% endif %}
+                  >
+                    {{ variant.title }} - {{ variant.price | money }}
+                  </option>
+                {% endfor %}
+              </select>
+
+              <input type="text" name="quantity" min="1" value="1">
+
+              <button
+                class="absolute bottom-4 right-4 w-12 h-12 bg-surface-container-lowest/90 backdrop-blur text-primary rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all shadow-lg hover:bg-primary hover:text-on-primary"
+                type="submit"
+              >
+                <span class="material-symbols-outlined">add_shopping_cart</span>
+              </button>
+              {{ form | payment_button }}
+            {% endform %}
+          </div>
+          <a href="{{ product.url }}">
+            <h4 class="font-headline-md text-[18px] leading-tight text-primary mb-1">{{ product.title }}</h4>
+            <p class="font-body-md text-body-md text-on-surface-variant mb-2">{{ product.collections.first.title }}</p>
+            <p class="font-label-sm text-label-sm text-primary">{{ product.price | money }}</p>
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Best Seller Products",
+  "settings": [
+    {
+      "type": "collection",
+      "id": "best-seller-collection",
+      "label": "Select Best Seller Collection"
+    }
+  ]
+}
+{% endschema %}
