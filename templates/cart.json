@@ -12,9 +12,14 @@
     "main": {
       "type": "cart",
       "settings": {}
+    },
+    "cart-recommand": {
+      "type": "cart-recommand",
+      "settings": {}
     }
   },
   "order": [
-    "main"
+    "main",
+    "cart-recommand"
   ]
 }
