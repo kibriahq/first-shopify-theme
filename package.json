@@ -1,5 +1,6 @@
 {
 	"scripts": {
+		"start": "shopify theme dev --store=kibria-lab",
 		"dev": "npx @tailwindcss/cli -i ./src/input.css -o ./assets/theme.css --watch",
 		"build": "npx @tailwindcss/cli -i ./src/input.css -o ./assets/theme.css --minify"
 	},
