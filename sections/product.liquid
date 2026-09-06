@@ -97,96 +97,99 @@
       <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed mb-10 max-w-prose">
         {{ product.description | strip_html }}
       </p>
-      <div class="flex flex-col gap-8 mb-10">
-        <div class="flex flex-col gap-3">
-          <div class="flex justify-between items-center">
-            <span
-              class="font-label-sm text-label-sm uppercase tracking-widest text-primary"
-              >Color: <span class="font-bold">Matte Black</span></span
-            >
-          </div>
-          <div class="flex gap-3">
-            <button
-              aria-label="Select Matte Black"
-              class="w-10 h-10 rounded-full bg-[#2A2A2A] shadow-sm ring-2 ring-primary ring-offset-2 ring-offset-surface transition-all"
-            ></button>
-            <button
-              aria-label="Select Alabaster"
-              class="w-10 h-10 rounded-full bg-[#E5DCC5] shadow-sm hover:scale-110 transition-transform"
-            ></button>
-            <button
-              aria-label="Select Sage"
-              class="w-10 h-10 rounded-full bg-[#7D8471] shadow-sm hover:scale-110 transition-transform"
-            ></button>
-          </div>
-        </div>
-        <div class="flex flex-col gap-3">
-          <div class="flex justify-between items-center">
-            <span
-              class="font-label-sm text-label-sm uppercase tracking-widest text-primary"
-              >Size</span
-            >
-            <button
-              class="text-label-sm font-label-sm text-on-surface-variant underline underline-offset-4 decoration-outline-variant hover:text-primary transition-colors"
-            >
-              Size Guide
-            </button>
-          </div>
-          <div class="grid grid-cols-3 gap-3">
-            <button
-              class="py-3 px-4 bg-surface-container-lowest border border-outline-variant rounded-md text-label-sm font-label-sm text-on-surface-variant hover:border-primary hover:text-primary transition-colors"
-            >
-              Small
-            </button>
-            <button
-              class="py-3 px-4 bg-surface-container-lowest border-2 border-primary rounded-md text-label-sm font-label-sm text-primary font-bold shadow-sm"
-            >
-              Medium
-            </button>
-            <button
-              class="py-3 px-4 bg-surface-container-lowest border border-outline-variant rounded-md text-label-sm font-label-sm text-on-surface-variant hover:border-primary hover:text-primary transition-colors opacity-50 cursor-not-allowed"
-            >
-              Large
-            </button>
-          </div>
-        </div>
-      </div>
-      <div class="flex flex-col sm:flex-row gap-4 mb-8">
-        <div
-          class="flex items-center bg-surface-container-lowest border border-outline-variant rounded-md h-14 sm:w-32"
-        >
-          <button
-            class="w-10 h-full flex items-center justify-center text-on-surface-variant hover:text-primary transition-colors"
-          >
-            <span class="material-symbols-outlined text-[18px]">remove</span>
-          </button>
+      {% for option in product.options_with_values %}
+        {% case option.name %}
+          {% when 'Color' %}
+            <div class="flex flex-col gap-8 mb-10">
+              <div class="flex flex-col gap-3">
+                <div class="flex justify-between items-center">
+                  <span
+                    class="font-label-sm text-label-sm uppercase tracking-widest text-primary"
+                    >Color: <span class="font-bold">{{ option.selected_value }}</span></span
+                  >
+                </div>
+                <div class="flex gap-3">
+                  {% assign color_map = 'Black:#2A2A2A,Cream:#E5DCC5,Olive:#7D8471' | split: ',' %}
+                  {% for value in option.values %}
+                    <button
+                      aria-label="Select {{ value }}"
+                      {% if value == option.selected_value %}
+                        class="w-10 h-10 rounded-full bg-[{% if value == 'Black' %}#2A2A2A{% elsif value == 'Cream' %}#E5DCC5{% elsif value == 'Olive' %}#7D8471{% endif %}] shadow-sm ring-2 ring-primary ring-offset-2 ring-offset-surface transition-all"
+                      {% else %}
+                        class="w-10 h-10 rounded-full bg-[{% if value == 'Black' %}#2A2A2A{% elsif value == 'Cream' %}#E5DCC5{% elsif value == 'Olive' %}#7D8471{% endif %}] shadow-sm hover:scale-110 transition-transform"
+                      {% endif %}
+                    ></button>
+                  {% endfor %}
+                </div>
+              </div>
+          {% when 'Size' %}
+            <div class="flex flex-col gap-3">
+              <div class="flex justify-between items-center">
+                <span
+                  class="font-label-sm text-label-sm uppercase tracking-widest text-primary"
+                  >Size</span
+                >
+                <button
+                  class="text-label-sm font-label-sm text-on-surface-variant underline underline-offset-4 decoration-outline-variant hover:text-primary transition-colors"
+                >
+                  Size Guide
+                </button>
+              </div>
+              <div class="grid grid-cols-3 gap-3">
+                {% for value in option.values %}
+                  <button
+                    {% if value == option.selected_value %}
+                      class="py-3 px-4 bg-surface-container-lowest border-2 border-primary rounded-md text-label-sm font-label-sm text-primary font-bold shadow-sm"
+                    {% else %}
+                      class="py-3 px-4 bg-surface-container-lowest border border-outline-variant rounded-md text-label-sm font-label-sm text-on-surface-variant hover:border-primary hover:text-primary transition-colors"
+                    {% endif %}
+                  >
+                    {{ value }}
+                  </button>
+                {% endfor %}
+              </div>
+            </div>
+            </div>
+        {% endcase %}
+      {% endfor %}
+
+      {% form 'product', product %}
+        <div class="flex flex-col sm:flex-row gap-4 mb-8">
+          <!-- Selected variant -->
           <input
-            class="w-full text-center bg-transparent font-label-sm text-label-sm text-primary outline-none appearance-none"
-            min="1"
-            style="-moz-appearance: textfield;"
-            type="number"
-            value="1"
+            type="hidden"
+            name="id"
+            value="{{ product.selected_or_first_available_variant.id }}"
           >
+
+          <div class="flex items-center bg-surface-container-lowest border border-outline-variant rounded-md h-14 sm:w-32">
+            <button class="w-10 h-full flex items-center justify-center text-on-surface-variant hover:text-primary transition-colors">
+              <span class="material-symbols-outlined text-[18px]">remove</span>
+            </button>
+            <input
+              class="w-full text-center bg-transparent font-label-sm text-label-sm text-primary outline-none appearance-none"
+              style="-moz-appearance: textfield;"
+              type="number"
+              name="quantity"
+              value="1"
+              min="1"
+            >
+            <button class="w-10 h-full flex items-center justify-center text-on-surface-variant hover:text-primary transition-colors">
+              <span class="material-symbols-outlined text-[18px]">add</span>
+            </button>
+          </div>
+
           <button
-            class="w-10 h-full flex items-center justify-center text-on-surface-variant hover:text-primary transition-colors"
+            type="submit"
+            class="flex-1 h-14 bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest rounded-md hover:bg-on-background transition-colors shadow-md hover:shadow-xl hover:-translate-y-0.5 duration-300"
           >
-            <span class="material-symbols-outlined text-[18px]">add</span>
+            Add to Cart
+          </button>
+          <button class="h-14 px-6 bg-surface-container-lowest border border-outline-variant rounded-md text-on-surface-variant hover:text-primary hover:border-primary transition-colors flex items-center justify-center group">
+            <span class="material-symbols-outlined group-hover:scale-110 transition-transform"> favorite </span>
           </button>
         </div>
-        <button
-          class="flex-1 h-14 bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest rounded-md hover:bg-on-background transition-colors shadow-md hover:shadow-xl hover:-translate-y-0.5 duration-300"
-        >
-          Add to Cart
-        </button>
-        <button
-          class="h-14 px-6 bg-surface-container-lowest border border-outline-variant rounded-md text-on-surface-variant hover:text-primary hover:border-primary transition-colors flex items-center justify-center group"
-        >
-          <span
-            class="material-symbols-outlined group-hover:scale-110 transition-transform"
-            >favorite</span
-          >
-        </button>
-      </div>
+      {% endform %}
       <div
         class="flex flex-col bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden mb-8"
       >
