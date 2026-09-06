@@ -1,43 +1,356 @@
-{% comment %}
-  This section is used in the collection template to render collection page
-  listing all products within a collection.
+<div class="pt-20 flex flex-col w-full px-margin-mobile lg:px-gutter max-w-container-max mx-auto py-12">
+  <!-- Breadcrumbs & Header -->
+  <div class="mb-12 flex flex-col gap-6">
+    <nav
+      class="flex items-center gap-2 text-label-sm font-label-sm text-on-surface-variant uppercase tracking-widest"
+    >
+      <a class="hover:text-primary transition-colors" href="#">Home</a>
+      <span class="text-outline-variant">/</span>
+      <span class="text-primary font-bold">All Products</span>
+    </nav>
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+      <div class="flex flex-col gap-2">
+        <h1 class="text-display-lg font-display-lg text-primary tracking-tighter">All Products</h1>
+        <span class="text-body-md font-body-md text-on-surface-variant">48 Curated Items</span>
+      </div>
+      <!-- Top Bar Sort -->
+      <div
+        class="flex items-center gap-4 border border-outline-variant px-4 py-2 bg-surface-container-lowest"
+      >
+        <span class="text-label-sm font-label-sm uppercase tracking-widest text-on-surface-variant">Sort By</span>
+        <select
+          0=""
+          24=""
+          24\
 
-  https://shopify.dev/docs/storefronts/themes/architecture/templates/collection
-{% endcomment %}
-
-<h1>{{ collection.title }}</h1>
-
-<div class="collection-products">
-  {% paginate collection.products by 20 %}
-    {% for product in collection.products %}
-      <div class="collection-product">
-        {% if product.featured_image %}
-          {% render 'image',
-            class: 'collection-product__image',
-            image: product.featured_image,
-            url: product.url,
-            width: 400,
-            height: 400,
-            crop: 'center'
-          %}
-        {% endif %}
-        <div class="collection-product__content">
-          <p>{{ product.title | escape | link_to: product.url }}</p>
-          <p>{{ product.price | money }}</p>
+          black\
+          class="bg-transparent text-body-md font-body-md text-primary outline-none appearance-none cursor-pointer pr-4"
+          height="\&quot;24\&quot;"
+          style="background-image: url('data:image/svg+xml;utf8,&lt;svg fill=\"
+          viewbox="\&quot;0"
+          width="\&quot;24\&quot;"
+          xmlns="\&quot;http://www.w3.org/2000/svg\&quot;"
+        >
+          '); background-repeat: no-repeat; background-position-x: 100%; background-position-y: 50%;"&gt;
+          <option value="featured">Featured</option>
+          <option value="best-selling">Best Selling</option>
+          <option value="price-low">Price: Low to High</option>
+          <option value="price-high">Price: High to Low</option>
+          <option value="newest">Newest</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <!-- Main Layout -->
+  <div class="flex flex-col lg:flex-row gap-12 items-start">
+    <!-- Sidebar Filters -->
+    <aside class="w-full lg:w-64 flex-shrink-0 hidden lg:flex flex-col gap-8 sticky top-28">
+      <!-- Category Filter -->
+      <div class="flex flex-col gap-4 border-b border-surface-variant pb-6">
+        <h3
+          class="text-label-sm font-label-sm uppercase tracking-widest text-primary flex items-center justify-between cursor-pointer group"
+        >
+          Category
+          <span
+            class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors transition-transform duration-300"
+            >expand_more</span
+          >
+        </h3>
+        <ul class="flex flex-col gap-3">
+          <li class="flex items-center gap-3">
+            <input
+              class="w-4 h-4 accent-primary cursor-pointer border-outline-variant"
+              id="cat-apparel"
+              type="checkbox"
+            >
+            <label
+              class="text-body-md font-body-md text-on-surface-variant hover:text-primary cursor-pointer transition-colors flex-1 flex justify-between"
+              for="cat-apparel"
+            >
+              Apparel <span class="text-outline-variant text-label-sm">(12)</span>
+            </label>
+          </li>
+          <li class="flex items-center gap-3">
+            <input
+              checked=""
+              class="w-4 h-4 accent-primary cursor-pointer border-outline-variant"
+              id="cat-ceramics"
+              type="checkbox"
+            >
+            <label
+              class="text-body-md font-body-md text-primary font-medium cursor-pointer transition-colors flex-1 flex justify-between"
+              for="cat-ceramics"
+            >
+              Ceramics <span class="text-outline-variant text-label-sm">(24)</span>
+            </label>
+          </li>
+          <li class="flex items-center gap-3">
+            <input
+              class="w-4 h-4 accent-primary cursor-pointer border-outline-variant"
+              id="cat-furniture"
+              type="checkbox"
+            >
+            <label
+              class="text-body-md font-body-md text-on-surface-variant hover:text-primary cursor-pointer transition-colors flex-1 flex justify-between"
+              for="cat-furniture"
+            >
+              Furniture <span class="text-outline-variant text-label-sm">(8)</span>
+            </label>
+          </li>
+          <li class="flex items-center gap-3">
+            <input
+              class="w-4 h-4 accent-primary cursor-pointer border-outline-variant"
+              id="cat-lighting"
+              type="checkbox"
+            >
+            <label
+              class="text-body-md font-body-md text-on-surface-variant hover:text-primary cursor-pointer transition-colors flex-1 flex justify-between"
+              for="cat-lighting"
+            >
+              Lighting <span class="text-outline-variant text-label-sm">(4)</span>
+            </label>
+          </li>
+        </ul>
+      </div>
+      <!-- Price Filter -->
+      <div class="flex flex-col gap-4 border-b border-surface-variant pb-6">
+        <h3
+          class="text-label-sm font-label-sm uppercase tracking-widest text-primary flex items-center justify-between cursor-pointer group"
+        >
+          Price Range
+          <span
+            class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors transition-transform duration-300"
+            >expand_more</span
+          >
+        </h3>
+        <div class="flex flex-col gap-4 pt-2">
+          <input
+            class="w-full accent-primary h-1 bg-surface-variant appearance-none rounded-full outline-none"
+            max="1000"
+            min="0"
+            type="range"
+            value="500"
+          >
+          <div class="flex items-center justify-between gap-4">
+            <div
+              class="border border-outline-variant px-3 py-2 flex items-center gap-1 w-full bg-surface-container-lowest"
+            >
+              <span class="text-label-sm font-label-sm text-on-surface-variant">$</span>
+              <input
+                class="w-full text-body-md font-body-md text-primary outline-none bg-transparent"
+                min="0"
+                type="number"
+                value="0"
+              >
+            </div>
+            <span class="text-on-surface-variant">-</span>
+            <div
+              class="border border-outline-variant px-3 py-2 flex items-center gap-1 w-full bg-surface-container-lowest"
+            >
+              <span class="text-label-sm font-label-sm text-on-surface-variant">$</span>
+              <input
+                class="w-full text-body-md font-body-md text-primary outline-none bg-transparent"
+                type="number"
+                value="1000"
+              >
+            </div>
+          </div>
         </div>
       </div>
-    {% endfor %}
+      <!-- Color Filter -->
+      <div class="flex flex-col gap-4 border-b border-surface-variant pb-6">
+        <h3
+          class="text-label-sm font-label-sm uppercase tracking-widest text-primary flex items-center justify-between cursor-pointer group"
+        >
+          Color
+          <span
+            class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors transition-transform duration-300"
+            >expand_more</span
+          >
+        </h3>
+        <div class="flex flex-wrap gap-3 pt-2">
+          <button
+            aria-label="Beige"
+            class="w-8 h-8 rounded-full border border-outline-variant bg-[#F5F5DC] shadow-sm hover:scale-110 transition-transform focus:ring-2 ring-primary ring-offset-2"
+          ></button>
+          <button
+            aria-label="Black"
+            class="w-8 h-8 rounded-full border border-outline-variant bg-[#000000] shadow-sm hover:scale-110 transition-transform focus:ring-2 ring-primary ring-offset-2"
+          ></button>
+          <button
+            aria-label="White"
+            class="w-8 h-8 rounded-full border border-outline-variant bg-[#FFFFFF] shadow-sm hover:scale-110 transition-transform focus:ring-2 ring-primary ring-offset-2 relative after:content-[''] after:absolute after:inset-0 after:rounded-full after:border after:border-outline-variant"
+          ></button>
+          <button
+            aria-label="Olive"
+            class="w-8 h-8 rounded-full border border-outline-variant bg-[#4A5D23] shadow-sm hover:scale-110 transition-transform focus:ring-2 ring-primary ring-offset-2 ring-offset-surface"
+          ></button>
+          <button
+            aria-label="Burgundy"
+            class="w-8 h-8 rounded-full border border-outline-variant bg-[#800020] shadow-sm hover:scale-110 transition-transform focus:ring-2 ring-primary ring-offset-2"
+          ></button>
+        </div>
+      </div>
+      <!-- Material Filter -->
+      <div class="flex flex-col gap-4 border-b border-surface-variant pb-6">
+        <h3
+          class="text-label-sm font-label-sm uppercase tracking-widest text-primary flex items-center justify-between cursor-pointer group"
+        >
+          Material
+          <span
+            class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors transition-transform duration-300"
+            >expand_more</span
+          >
+        </h3>
+        <ul class="flex flex-col gap-3">
+          <li class="flex items-center gap-3">
+            <input
+              class="w-4 h-4 accent-primary cursor-pointer border-outline-variant"
+              id="mat-linen"
+              type="checkbox"
+            >
+            <label
+              class="text-body-md font-body-md text-on-surface-variant hover:text-primary cursor-pointer transition-colors flex-1 flex justify-between"
+              for="mat-linen"
+              >Linen</label
+            >
+          </li>
+          <li class="flex items-center gap-3">
+            <input
+              class="w-4 h-4 accent-primary cursor-pointer border-outline-variant"
+              id="mat-stoneware"
+              type="checkbox"
+            >
+            <label
+              class="text-body-md font-body-md text-on-surface-variant hover:text-primary cursor-pointer transition-colors flex-1 flex justify-between"
+              for="mat-stoneware"
+              >Stoneware</label
+            >
+          </li>
+          <li class="flex items-center gap-3">
+            <input
+              class="w-4 h-4 accent-primary cursor-pointer border-outline-variant"
+              id="mat-wood"
+              type="checkbox"
+            >
+            <label
+              class="text-body-md font-body-md text-on-surface-variant hover:text-primary cursor-pointer transition-colors flex-1 flex justify-between"
+              for="mat-wood"
+              >Walnut Wood</label
+            >
+          </li>
+        </ul>
+      </div>
+      <button
+        class="text-label-sm font-label-sm uppercase tracking-widest text-on-surface-variant hover:text-primary text-left transition-colors mt-2 underline decoration-1 underline-offset-4"
+      >
+        Clear All Filters
+      </button>
+    </aside>
+    <!-- Product Grid -->
+    <div class="flex-1 flex flex-col gap-12">
+      <!-- Mobile Filter Toggle (hidden on lg) -->
+      <button
+        class="lg:hidden w-full flex items-center justify-center gap-2 border border-outline-variant py-3 bg-surface-container-lowest text-label-sm font-label-sm uppercase tracking-widest text-primary hover:bg-surface transition-colors"
+      >
+        <span class="material-symbols-outlined text-[18px]">tune</span>
+        Filter &amp; Sort
+      </button>
+      <!-- 4 Column Grid on XL, 3 on LG, 2 on MD, 1 on Mobile -->
+      {% paginate collection.products by 20 %}
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-16">
+          {% for product in collection.products %}
+            <!-- Product Card -->
+            <div class="group flex flex-col gap-4 relative">
+              <div class="relative aspect-[4/5] bg-surface-container overflow-hidden rounded-sm">
+                <img
+                  class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  data-alt="{{ product.title }}"
+                  src="{{ product.featured_image | img_url: '400x' }}"
+                  height="400"
+                  width="400"
+                >
+                <!-- Badges -->
+                {% comment %}
+                  <div class="absolute top-4 left-4 flex flex-col gap-2">
+                    <span
+                      class="bg-secondary text-on-secondary px-3 py-1 text-[10px] font-label-sm uppercase tracking-widest shadow-sm"
+                      >New In</span
+                    >
+                  </div>
+                {% endcomment %}
+                <!-- Wishlist -->
+                <button
+                  class="absolute top-4 right-4 w-8 h-8 bg-surface-container-lowest rounded-full flex items-center justify-center text-on-surface-variant hover:text-error hover:bg-error-container transition-all shadow-sm opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 duration-300"
+                >
+                  <span class="material-symbols-outlined text-[18px]">favorite</span>
+                </button>
+                <!-- Quick Add -->
+                <button
+                  class="absolute bottom-0 left-0 w-full bg-primary/95 text-on-primary py-4 text-label-sm font-label-sm uppercase tracking-widest translate-y-full group-hover:translate-y-0 transition-transform duration-300 hover:bg-primary backdrop-blur-md"
+                >
+                  Quick Add
+                </button>
+              </div>
+              <div class="flex flex-col gap-1">
+                <a
+                  class="text-body-lg font-body-lg text-primary hover:text-on-surface-variant transition-colors line-clamp-1"
+                  href="{{ product.url }}"
+                >
+                  {{ product.title }}
+                </a>
+                <div class="flex flex-wrap items-center gap-2">
+                  <span class="text-body-md font-body-md text-primary">{{ product.price | money }}</span>
+                </div>
+                <span class="text-label-sm font-label-sm text-on-surface-variant mt-1">
+                  {{- product.collections.first.title -}}
+                </span>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+        <!-- Pagination / Load More -->
+        <div class="flex items-center justify-center gap-2 mt-section-gap">
+          {% if paginate.previous %}
+            <a
+              href="{{ paginate.previous.url }}"
+              class="w-10 h-10 flex items-center justify-center rounded-full border border-outline-variant text-on-surface hover:bg-surface-variant transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              disabled=""
+            >
+              <span class="material-symbols-outlined text-[20px]">chevron_left</span>
+            </a>
+          {% endif %}
 
-    {{ paginate | default_pagination }}
-  {% endpaginate %}
+          {% for part in paginate.parts %}
+            {% if part.is_link %}
+              <a
+                href="{{ part.url }}"
+                class="w-10 h-10 flex items-center justify-center rounded-full text-on-surface hover:bg-surface-variant transition-colors font-label-sm text-label-sm"
+              >
+                {{ part.title }}
+              </a>
+            {% else %}
+              <button
+                class="w-10 h-10 flex items-center justify-center rounded-full bg-primary text-on-primary font-label-sm text-label-sm"
+              >
+                {{ part.title }}
+              </button>
+            {% endif %}
+          {% endfor %}
+
+          {% if paginate.next %}
+            <a
+              href="{{ paginate.next.url }}"
+              class="w-10 h-10 flex items-center justify-center rounded-full border border-outline-variant text-on-surface hover:bg-surface-variant transition-colors"
+            >
+              <span class="material-symbols-outlined text-[20px]">chevron_right</span>
+            </a>
+          {% endif %}
+        </div>
+      {% endpaginate %}
+    </div>
+  </div>
 </div>
-
-{% stylesheet %}
-  .collection-products {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
-  }
-{% endstylesheet %}
 
 {% schema %}
 {
