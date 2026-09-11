@@ -44,18 +44,14 @@
         >
       </div>
       <div class="grid grid-cols-3 gap-6 pt-10 mt-10 border-t border-outline-variant/30 w-full">
-        <div>
-          <p class="font-headline-md text-xl font-bold text-primary">100%</p>
-          <p class="text-xs text-on-surface-variant uppercase tracking-wider mt-0.5">Sustainably Sourced</p>
-        </div>
-        <div>
-          <p class="font-headline-md text-xl font-bold text-primary">Limited</p>
-          <p class="text-xs text-on-surface-variant uppercase tracking-wider mt-0.5">Artisan Editions</p>
-        </div>
-        <div>
-          <p class="font-headline-md text-xl font-bold text-primary">Global</p>
-          <p class="text-xs text-on-surface-variant uppercase tracking-wider mt-0.5">White Glove Care</p>
-        </div>
+        {% for block in section.blocks %}
+          <div>
+            <p class="font-headline-md text-xl font-bold text-primary">{{ block.settings.heading }}</p>
+            <p class="text-xs text-on-surface-variant uppercase tracking-wider mt-0.5">
+              {{ block.settings.description }}
+            </p>
+          </div>
+        {% endfor %}
       </div>
     </div>
     <div class="lg:col-span-6 relative">
@@ -136,6 +132,53 @@
       "type": "url",
       "id": "button_link_2",
       "label": "Second button link"
+    }
+  ],
+  "max_blocks": 3,
+  "blocks": [
+    {
+      "type": "hero_info",
+      "name": "Hero Info",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading Text"
+        },
+        {
+          "type": "text",
+          "id": "description",
+          "label": "Description Text"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero",
+      "blocks": [
+        {
+          "type": "hero_info",
+          "settings": {
+            "heading": "100%",
+            "description": "Sustainably Sourced"
+          }
+        },
+        {
+          "type": "hero_info",
+          "settings": {
+            "heading": "Limited",
+            "description": "Artisan Editions"
+          }
+        },
+        {
+          "type": "hero_info",
+          "settings": {
+            "heading": "Global",
+            "description": "White Glove Care"
+          }
+        }
+      ]
     }
   ]
 }
