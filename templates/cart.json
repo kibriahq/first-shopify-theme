@@ -13,13 +13,13 @@
       "type": "cart",
       "settings": {}
     },
-    "cart-recommand": {
-      "type": "cart-recommand",
+    "cart-recommend": {
+      "type": "cart-recommend",
       "settings": {}
     }
   },
   "order": [
     "main",
-    "cart-recommand"
+    "cart-recommend"
   ]
 }
