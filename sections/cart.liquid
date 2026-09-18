@@ -38,64 +38,9 @@
         </div>
       </div>
       <div class="flex flex-col gap-8">
-        <!-- Item 1 -->
+        <!-- Items -->
         {% for item in cart.items %}
-          <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center group">
-            <div class="md:col-span-6 flex gap-6 items-center">
-              <div
-                class="relative w-32 aspect-[4/5] bg-surface-container overflow-hidden group-hover:shadow-lg transition-shadow duration-300"
-              >
-                <img
-                  class="w-full h-full object-cover"
-                  data-alt="A minimalist overhead shot of a sleek, matte black ceramic vase on a textured linen cloth, softly lit to emphasize subtle curves and high-end craftsmanship."
-                  src="{{ item.image | img_url: '400x' }}"
-                  height="400"
-                  width="400"
-                >
-              </div>
-              <div class="flex flex-col gap-2">
-                <h3 class="font-headline-md text-body-lg text-primary">{{ item.title }}</h3>
-                <p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest">
-                  {{ item.variant_title }}
-                </p>
-                <a
-                  href="{{ item.url_to_remove }}"
-                  class="text-left font-label-sm text-label-sm text-on-surface-variant hover:text-error transition-colors mt-2 w-fit"
-                >
-                  Remove
-                </a>
-              </div>
-            </div>
-            <div class="md:col-span-2 flex justify-start md:justify-center">
-              <div
-                class="flex items-center bg-surface-container-low rounded-full px-4 py-2 border border-outline-variant/50"
-              >
-                <button type="button"
-                  class="text-on-surface-variant hover:text-primary transition-colors focus:outline-none"
-                >
-                  <span
-                    class="material-symbols-outlined text-[18px]"
-                    >remove</span
-                  >
-                </button>
-                <span class="w-8 text-center font-body-md text-body-md text-primary">{{ item.quantity }}</span>
-                <button type="button"
-                  class="text-on-surface-variant hover:text-primary transition-colors focus:outline-none"
-                >
-                  <span
-                    class="material-symbols-outlined text-[18px]"
-                    >add</span
-                  >
-                </button>
-              </div>
-            </div>
-            <div class="hidden md:block md:col-span-2 text-right font-body-lg text-body-lg text-on-surface-variant">
-              {{ item.price | money }}
-            </div>
-            <div class="md:col-span-2 text-left md:text-right font-headline-md text-headline-md text-primary">
-              {{ item.line_price | money }}
-            </div>
-          </div>
+          {% render 'cart-item', item: item, line: forloop.index %}
 
           {% unless forloop.last %}
             <div class="w-full h-[1px] bg-outline-variant/20"></div>
