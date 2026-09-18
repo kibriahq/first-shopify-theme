@@ -47,7 +47,8 @@
           height="24"
           width="24"
         ></button
-      ><button
+      ><a
+        href="/cart"
         class="relative text-on-surface-variant hover:text-primary transition-colors"
       >
         <img
@@ -57,10 +58,13 @@
           height="24"
           width="24"
         >
-        <span class="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-secondary text-[10px] text-on-secondary font-bold">
+        <span
+          id="cart-count"
+          class="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-secondary text-[10px] text-on-secondary font-bold"
+        >
           0
         </span>
-      </button>
+      </a>
 
       <button
         class="ml-2 border border-outline-variant rounded-full p-0.5 hover:border-primary transition-all"
