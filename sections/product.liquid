@@ -163,7 +163,11 @@
           >
 
           <div class="flex items-center bg-surface-container-lowest border border-outline-variant rounded-md h-14 sm:w-32">
-            <button type="button" class="w-10 h-full flex items-center justify-center text-on-surface-variant hover:text-primary transition-colors">
+            <button
+              type="button"
+              data-quantity-minus
+              class="w-10 h-full flex items-center justify-center text-on-surface-variant hover:text-primary transition-colors"
+            >
               <span class="material-symbols-outlined text-[18px]">remove</span>
             </button>
             <input
@@ -174,7 +178,11 @@
               value="1"
               min="1"
             >
-            <button type="button" class="w-10 h-full flex items-center justify-center text-on-surface-variant hover:text-primary transition-colors">
+            <button
+              type="button"
+              data-quantity-plus
+              class="w-10 h-full flex items-center justify-center text-on-surface-variant hover:text-primary transition-colors"
+            >
               <span class="material-symbols-outlined text-[18px]">add</span>
             </button>
           </div>
@@ -234,6 +242,25 @@
     </div>
   </div>
 </div>
+
+<script>
+  const quantityInput = document.querySelector('input[name="quantity"]');
+  const minusButton = document.querySelector('[data-quantity-minus]');
+  const plusButton = document.querySelector('[data-quantity-plus]');
+
+  minusButton.addEventListener('click', function () {
+    if (quantityInput.value <= 1) return;
+    const quantity = parseInt(quantityInput.value) || 1;
+
+    quantityInput.value = Math.max(1, quantity - 1);
+  });
+
+  plusButton.addEventListener('click', function () {
+    const quantity = parseInt(quantityInput.value) || 1;
+
+    quantityInput.value = quantity + 1;
+  });
+</script>
 
 {% schema %}
 {
