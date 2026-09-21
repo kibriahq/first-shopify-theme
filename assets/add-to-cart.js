@@ -33,12 +33,12 @@ document.querySelectorAll('form[action="/cart/add"]').forEach((form) => {
 
             const item = await response.json();
 
-            console.log('Added:', item);
-
+            const btnContent = button.innerHTML;
+            
             button.textContent = 'Added ✓';
 
             setTimeout(() => {
-                button.textContent = 'Add to Cart';
+                button.innerHTML = btnContent;
                 button.disabled = false;
             }, 1000);
 
