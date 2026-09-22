@@ -49,7 +49,8 @@ document.addEventListener('click', async (event) => {
             },
             body: JSON.stringify({
                 line: line,
-                quantity: quantity
+                quantity: quantity,
+                sections: 'cart-section'
             })
         });
 
@@ -57,16 +58,12 @@ document.addEventListener('click', async (event) => {
             throw new Error('Failed to update cart');
         }
 
-        console.log('Status:', response.status);
-        console.log('OK:', response.ok);
-
         const cart = await response.json();
 
-        console.log('Updated cart:', cart);
+        // Update the cart with the new cart data
+        document.querySelector('#cart-section').innerHTML = cart.sections['cart-section'];
 
         quantityInput.value = quantity;
-
-        console.log('Updated cart:', cart);
 
     } catch (error) {
         console.error(error);
