@@ -6,9 +6,12 @@ document.querySelectorAll('form[action="/cart/add"]').forEach((form) => {
         button.disabled = true;
 
         try {
+            const formData = new FormData(form);
+            formData.append('sections', 'cart-drawer');
+
             const response = await fetch('/cart/add.js', {
                 method: 'POST',
-                body: new FormData(form),
+                body: formData,
                 headers: {
                     'Accept': 'application/json'
                 }
@@ -33,8 +36,13 @@ document.querySelectorAll('form[action="/cart/add"]').forEach((form) => {
 
             const item = await response.json();
 
+            const cartElement = document.createElement('div');
+            cartElement.innerHTML = item.sections['cart-drawer'];
+
+            document.querySelector('#shopify-section-cart-drawer').querySelector('#cart-drawer-content').innerHTML = cartElement.querySelector('#cart-drawer-content').innerHTML;
+
             const btnContent = button.innerHTML;
-            
+
             button.textContent = 'Added ✓';
 
             setTimeout(() => {
