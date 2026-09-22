@@ -102,7 +102,7 @@ class DiscountInput extends HTMLElement {
 
         const formData = {
             discount: this.discountForm.querySelector('input[name="discount"]').value,
-            sections: 'cart-drawer'
+            sections: 'cart-section'
         }
 
         this.#updateCart(formData);
@@ -113,7 +113,7 @@ class DiscountInput extends HTMLElement {
 
         const formData = {
             discount: '',
-            sections: 'cart-drawer'
+            sections: 'cart-section'
         }
 
         this.#updateCart(formData);
@@ -137,11 +137,8 @@ class DiscountInput extends HTMLElement {
 
             const cart = await response.json();
 
-            // Update the cart drawer with the new cart data
-            const cartElement = document.createElement('div');
-            cartElement.innerHTML = cart.sections['cart-drawer'];
-
-            document.querySelector('#shopify-section-cart-drawer').querySelector('#cart-drawer-content').innerHTML = cartElement.querySelector('#cart-drawer-content').innerHTML;
+            // Update the cart with the new cart data
+            document.querySelector('#cart-section').innerHTML = cart.sections['cart-section'];
         } catch (error) {
             console.error(error);
         }
