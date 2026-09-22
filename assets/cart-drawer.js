@@ -79,3 +79,73 @@ class CartActions extends HTMLElement {
 }
 
 customElements.define('cart-actions', CartActions);
+
+
+class DiscountInput extends HTMLElement {
+    constructor() {
+        super();
+
+        this.discountForm = this.querySelector('#discount-form');
+        this.removeDiscountButtons = this.querySelectorAll('.remove-discount-button');
+    }
+    
+    connectedCallback() {
+        this.discountForm.addEventListener('submit', this.handleSubmit.bind(this));
+
+        this.removeDiscountButtons.forEach(button => {
+            button.addEventListener('click', this.handleRemoveDiscount.bind(this));
+        });
+    }
+
+    handleSubmit(event) {
+        event.preventDefault();
+
+        const formData = {
+            discount: this.discountForm.querySelector('input[name="discount"]').value,
+            sections: 'cart-drawer'
+        }
+
+        this.#updateCart(formData);
+    }
+
+    handleRemoveDiscount(event) {
+        event.preventDefault();
+
+        const formData = {
+            discount: '',
+            sections: 'cart-drawer'
+        }
+
+        this.#updateCart(formData);
+    }
+
+    async #updateCart(formData) {
+
+        try {
+            const response = await fetch('/cart/update.js', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to update cart');
+            }
+
+            const cart = await response.json();
+
+            // Update the cart drawer with the new cart data
+            const cartElement = document.createElement('div');
+            cartElement.innerHTML = cart.sections['cart-drawer'];
+
+            document.querySelector('#shopify-section-cart-drawer').querySelector('#cart-drawer-content').innerHTML = cartElement.querySelector('#cart-drawer-content').innerHTML;
+        } catch (error) {
+            console.error(error);
+        }
+    }
+}
+
+customElements.define('discount-input', DiscountInput);
