@@ -1,4 +1,4 @@
-<div class="max-w-container-max mx-auto px-margin-mobile lg:px-gutter w-full pb-section-gap pt-20">
+<div id="product-page" class="max-w-container-max mx-auto px-margin-mobile lg:px-gutter w-full pb-section-gap pt-20">
   <nav class="flex items-center gap-2 py-8 text-label-sm font-label-sm text-on-surface-variant">
     <a class="hover:text-primary transition-colors" href="{{ routes.root_url }}">Home</a>
     <span class="material-symbols-outlined text-[16px]">chevron_right</span>
@@ -89,69 +89,74 @@
         {{ product.title }}
       </h1>
       <div class="flex items-baseline gap-4 mb-8">
-        <span class="font-headline-md text-headline-md text-primary">{{ product.price | money }}</span>
+        <span class="font-headline-md text-headline-md text-primary">{{ product.selected_or_first_available_variant.price | money }}</span>
         <span class="font-body-lg text-body-lg text-on-surface-variant line-through">
-          {{- product.compare_at_price | money -}}
+          {{- product.selected_or_first_available_variant.compare_at_price | money -}}
         </span>
       </div>
       <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed mb-10 max-w-prose">
         {{ product.description | strip_html }}
       </p>
-      {% for option in product.options_with_values %}
-        {% case option.name %}
-          {% when 'Color' %}
-            <div class="flex flex-col gap-8 mb-10">
-              <div class="flex flex-col gap-3">
-                <div class="flex justify-between items-center">
-                  <span
-                    class="font-label-sm text-label-sm uppercase tracking-widest text-primary"
-                    >Color: <span class="font-bold">{{ option.selected_value }}</span></span
+      <variant-picker data-section-id="{{ section.id }}">
+        {% for option in product.options_with_values %}
+          <div class="flex flex-col gap-3 mb-7">
+            <div class="flex justify-between items-center">
+              <span
+                class="font-label-sm text-label-sm uppercase tracking-widest text-primary"
+              >
+                {{- option.name -}}
+              </span>
+            </div>
+            {% if option.name == 'Color' %}
+              <div class="flex gap-3">
+                {% for color in option.values %}
+                  <label
+                    class="w-10 h-10 rounded-full shadow-sm {% if color == option.selected_value %} ring-2 ring-primary ring-offset-2 ring-offset-surface transition-all {% else %} hover:scale-110 transition-transform {% endif %}"
+                    style="background-color: {{ color  }};"
+                    for="option-{{ option.position }}-{{ color | handleize }}"
                   >
-                </div>
-                <div class="flex gap-3">
-                  {% assign color_map = 'Black:#2A2A2A,Cream:#E5DCC5,Olive:#7D8471' | split: ',' %}
-                  {% for value in option.values %}
-                    <button
-                      aria-label="Select {{ value }}"
-                      {% if value == option.selected_value %}
-                        class="w-10 h-10 rounded-full bg-[{% if value == 'Black' %}#2A2A2A{% elsif value == 'Cream' %}#E5DCC5{% elsif value == 'Olive' %}#7D8471{% endif %}] shadow-sm ring-2 ring-primary ring-offset-2 ring-offset-surface transition-all"
-                      {% else %}
-                        class="w-10 h-10 rounded-full bg-[{% if value == 'Black' %}#2A2A2A{% elsif value == 'Cream' %}#E5DCC5{% elsif value == 'Olive' %}#7D8471{% endif %}] shadow-sm hover:scale-110 transition-transform"
-                      {% endif %}
-                    ></button>
-                  {% endfor %}
-                </div>
+                  </label>
+                  <input
+                    type="radio"
+                    name="option-{{ option.position }}"
+                    value="{{ color.variant.id }}"
+                    id="option-{{ option.position }}-{{ color | handleize }}"
+                    {% if color == option.selected_value %}
+                      checked
+                    {% endif %}
+                    class="hidden"
+                  />
+                {% endfor %}
               </div>
-          {% when 'Size' %}
-            <div class="flex flex-col gap-3">
-              <div class="flex justify-between items-center">
-                <span
-                  class="font-label-sm text-label-sm uppercase tracking-widest text-primary"
-                  >Size</span
-                >
-                <button
-                  class="text-label-sm font-label-sm text-on-surface-variant underline underline-offset-4 decoration-outline-variant hover:text-primary transition-colors"
-                >
-                  Size Guide
-                </button>
-              </div>
+            {% else %}
               <div class="grid grid-cols-3 gap-3">
                 {% for value in option.values %}
-                  <button
+                  <label
                     {% if value == option.selected_value %}
                       class="py-3 px-4 bg-surface-container-lowest border-2 border-primary rounded-md text-label-sm font-label-sm text-primary font-bold shadow-sm"
                     {% else %}
                       class="py-3 px-4 bg-surface-container-lowest border border-outline-variant rounded-md text-label-sm font-label-sm text-on-surface-variant hover:border-primary hover:text-primary transition-colors"
                     {% endif %}
+                    for="option-{{ option.position }}-{{ value | handleize }}"
                   >
                     {{ value }}
-                  </button>
+                  </label>
+                  <input
+                    type="radio"
+                    name="option-{{ option.position }}"
+                    value="{{ value.variant.id }}"
+                    id="option-{{ option.position }}-{{ value | handleize }}"
+                    {% if value == option.selected_value %}
+                      checked
+                    {% endif %}
+                    class="hidden"
+                  />
                 {% endfor %}
               </div>
-            </div>
-            </div>
-        {% endcase %}
-      {% endfor %}
+            {% endif %}
+          </div>
+        {%- endfor %}
+      </variant-picker>
 
       {% form 'product', product %}
         <div class="flex flex-col sm:flex-row gap-4 mb-8">
@@ -243,24 +248,7 @@
   </div>
 </div>
 
-<script>
-  const quantityInput = document.querySelector('input[name="quantity"]');
-  const minusButton = document.querySelector('[data-quantity-minus]');
-  const plusButton = document.querySelector('[data-quantity-plus]');
-
-  minusButton.addEventListener('click', function () {
-    if (quantityInput.value <= 1) return;
-    const quantity = parseInt(quantityInput.value) || 1;
-
-    quantityInput.value = Math.max(1, quantity - 1);
-  });
-
-  plusButton.addEventListener('click', function () {
-    const quantity = parseInt(quantityInput.value) || 1;
-
-    quantityInput.value = quantity + 1;
-  });
-</script>
+<script src="{{ 'product.js' | asset_url }}" defer></script>
 
 {% schema %}
 {
