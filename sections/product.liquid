@@ -89,7 +89,9 @@
         {{ product.title }}
       </h1>
       <div class="flex items-baseline gap-4 mb-8">
-        <span class="font-headline-md text-headline-md text-primary">{{ product.selected_or_first_available_variant.price | money }}</span>
+        <span class="font-headline-md text-headline-md text-primary">
+          {{- product.selected_or_first_available_variant.price | money -}}
+        </span>
         <span class="font-body-lg text-body-lg text-on-surface-variant line-through">
           {{- product.selected_or_first_available_variant.compare_at_price | money -}}
         </span>
@@ -112,7 +114,11 @@
                 {% for color in option.values %}
                   <label
                     class="w-10 h-10 rounded-full shadow-sm {% if color == option.selected_value %} ring-2 ring-primary ring-offset-2 ring-offset-surface transition-all {% else %} hover:scale-110 transition-transform {% endif %}"
-                    style="background-color: {{ color  }};"
+                    {% if color.swatch.color %}
+                      style="background-color: {{ color.swatch.color }};"
+                    {% else %}
+                      style="background-image: url('{{ color.swatch.image | img_url: '100x100' }}'); background-size: cover; background-position: center;"
+                    {% endif %}
                     for="option-{{ option.position }}-{{ color | handleize }}"
                   >
                   </label>
