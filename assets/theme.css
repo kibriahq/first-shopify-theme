@@ -837,21 +837,6 @@
       border-color: color-mix(in oklab, var(--color-white) 40%, transparent);
     }
   }
-  .bg-\[\#000000\] {
-    background-color: #000000;
-  }
-  .bg-\[\#4A5D23\] {
-    background-color: #4A5D23;
-  }
-  .bg-\[\#800020\] {
-    background-color: #800020;
-  }
-  .bg-\[\#F5F5DC\] {
-    background-color: #F5F5DC;
-  }
-  .bg-\[\#FFFFFF\] {
-    background-color: #FFFFFF;
-  }
   .bg-black {
     background-color: var(--color-black);
   }
@@ -1507,33 +1492,6 @@
       --tw-shadow: 0 10px 15px -3px var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 4px 6px -4px var(--tw-shadow-color, rgb(0 0 0 / 0.1));
       box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
     }
-  }
-  .after\:absolute::after {
-    content: var(--tw-content);
-    position: absolute;
-  }
-  .after\:inset-0::after {
-    content: var(--tw-content);
-    inset: 0px;
-  }
-  .after\:rounded-full::after {
-    content: var(--tw-content);
-    border-radius: var(--radius-full);
-  }
-  .after\:border::after {
-    content: var(--tw-content);
-    border-style: var(--tw-border-style);
-    border-width: 1px;
-  }
-  .after\:border-outline-variant::after {
-    content: var(--tw-content);
-    border-color: var(--color-outline-variant);
-  }
-  .after\:content-\[\'\'\]::after {
-    --tw-content: '';
-    content: var(--tw-content);
-  }
-  @media (hover: hover) {
     .hover\:-translate-y-0\.5:hover {
       --tw-translate-y: calc(var(--spacing) * -0.5);
       translate: var(--tw-translate-x) var(--tw-translate-y);
@@ -2086,11 +2044,6 @@
   inherits: false;
   initial-value: 1;
 }
-@property --tw-content {
-  syntax: "*";
-  initial-value: "";
-  inherits: false;
-}
 @layer properties {
   @supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b)))) {
     *, ::before, ::after, ::backdrop {
@@ -2157,7 +2110,6 @@
       --tw-scale-x: 1;
       --tw-scale-y: 1;
       --tw-scale-z: 1;
-      --tw-content: "";
     }
   }
 }

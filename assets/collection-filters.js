@@ -6,6 +6,9 @@ class CollectionFilters extends HTMLElement {
     connectedCallback() {
         this.filterInputs = this.querySelectorAll('input');
 
+        this.minRange = this.querySelector('input[type="range"][data-min-value]');
+        this.maxRange = this.querySelector('input[type="range"][data-max-value]');
+
         this.filterInputs.forEach(input => {
             input.addEventListener('change', this.handleClick.bind(this));
         });
@@ -13,7 +16,20 @@ class CollectionFilters extends HTMLElement {
 
     handleClick(event) {
         const input = event.currentTarget;
-        const url = new URL(input.checked ? input.dataset.addUrl : input.dataset.removeUrl, window.location.origin);
+        let url;
+
+        if(input.dataset.addUrl && input.dataset.removeUrl) {
+            url = new URL(input.checked ? input.dataset.addUrl : input.dataset.removeUrl, window.location.origin);
+        } else {
+            url = new URL(window.location.href);
+
+            url.searchParams.delete(this.minRange.dataset.param);
+            url.searchParams.delete(this.maxRange.dataset.param);
+
+            url.searchParams.set(this.minRange.dataset.param, this.minRange.value);
+            url.searchParams.set(this.maxRange.dataset.param, this.maxRange.value);
+        }
+
         url.searchParams.set('section_id', this.sectionId);
 
         fetch(url.toString())

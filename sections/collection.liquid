@@ -117,14 +117,42 @@
               </ul>
             {% endif %}
           {% else %}
+            {% if filter.min_value.value %}
+              {% assign min_value = filter.min_value.value | divided_by: 100.0 %}
+            {% else %}
+              {% assign min_value = 0.0 %}
+            {% endif %}
+
+            {% if filter.max_value.value %}
+              {% assign max_value = filter.max_value.value | divided_by: 100.0 %}
+            {% else %}
+              {% assign max_value = filter.range_max | divided_by: 100.0 %}
+            {% endif %}
+
             <div class="flex flex-col gap-4 pt-2">
               <input
                 class="w-full accent-primary h-1 bg-surface-variant appearance-none rounded-full outline-none"
-                max="1000"
-                min="0"
                 type="range"
-                value="500"
+                id="{{ filter.min_value.param_name }}"
+                name="{{ filter.min_value.param_name }}"
+                min="0"
+                max="{{ filter.range_max | divided_by: 100 | round | plus: 1 }}"
+                value="{{ min_value }}"
+                data-param="{{ filter.min_value.param_name }}"
+                data-min-value
               >
+              <input
+                class="w-full accent-primary h-1 bg-surface-variant appearance-none rounded-full outline-none"
+                type="range"
+                id="{{ filter.max_value.param_name }}"
+                name="{{ filter.max_value.param_name }}"
+                min="0"
+                max="{{ filter.range_max | divided_by: 100 | round | plus: 1 }}"
+                value="{{ max_value }}"
+                data-param="{{ filter.max_value.param_name }}"
+                data-max-value
+              >
+
               <div class="flex items-center justify-between gap-4">
                 <div
                   class="border border-outline-variant px-3 py-2 flex items-center gap-1 w-full bg-surface-container-lowest"
