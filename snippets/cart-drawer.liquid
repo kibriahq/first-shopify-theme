@@ -26,8 +26,8 @@
               width="{{ item.image.width }}"
             >
             <div class="ml-3 grow">
-              <h4 class="text-sm font-medium text-gray-800">{{ item.title }}</h4>
-              <span class="text-sm text-gray-600">{{ item.variant_title | default: 'Default Variant' }}</span>
+              <h4 class="text-sm font-medium text-gray-800">{{ item.product.title }}</h4>
+              <span class="text-sm text-gray-600">{% if item.variant.title != 'Default Title' %} {{ item.variant.title }} {% endif %}</span>
               <p class="text-sm text-gray-600">{{ item.price | money }}</p>
             </div>
             <cart-actions data-line="{{ forloop.index }}">
